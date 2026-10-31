@@ -1,0 +1,1 @@
+timestamp_utc,device,host,room,position,step,brightness_pct,color_setting,color_unit,lux,baseline_lux,net_lux,samples,f1_415nm,f2_445nm,f3_480nm,f4_515nm,f5_555nm,f6_590nm,f7_630nm,f8_680nm,clear,nir,baseline_spectrum_json,spectrum_json,reported_state_json

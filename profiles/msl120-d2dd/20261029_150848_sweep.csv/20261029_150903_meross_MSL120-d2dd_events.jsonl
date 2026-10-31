@@ -1,0 +1,50 @@
+{"utc": "2026-10-29T21:09:03.004223+00:00", "event": "started", "service": "MSL120-d2dd", "original_state": {"light": {"capacity": 6, "channel": 0, "rgb": 16755028, "temperature": 26, "luminance": 75, "transform": 0}, "togglex": [{"channel": 0, "onoff": 1, "lmTime": 1793307866}], "raw": {"light": {"header": {"messageId": "e0507b8312844f8cbd6af358d5d6c59c", "namespace": "Appliance.Control.Light", "triggerSrc": "MerossClient", "method": "GETACK", "payloadVersion": 1, "from": "/appliance/2204200840044852050348e1e98fd2dd/publish", "uuid": "2204200840044852050348e1e98fd2dd", "timestamp": 1793308136, "timestampMs": 467, "sign": "bd074201f74fea2b27e130f9e0711d71"}, "payload": {"light": {"capacity": 6, "channel": 0, "rgb": 16755028, "temperature": 26, "luminance": 75, "transform": 0}}}, "togglex": {"header": {"messageId": "83a8c97d724ddd0559971ce955cbda00", "namespace": "Appliance.Control.ToggleX", "triggerSrc": "MerossClient", "method": "GETACK", "payloadVersion": 1, "from": "/appliance/2204200840044852050348e1e98fd2dd/publish", "uuid": "2204200840044852050348e1e98fd2dd", "timestamp": 1793308136, "timestampMs": 520, "sign": "508ad7b6b928920de06d6ab54d382fdc"}, "payload": {"channel": 4294967295, "togglex": [{"channel": 0, "onoff": 1, "lmTime": 1793307866}]}}}}, "planned_steps": 400, "resumed_from": null, "existing_steps": 0}
+{"utc": "2026-10-29T21:09:10.553140+00:00", "event": "preflight_ok", "measurement": {"lux": 944.94, "spectrum": {"f1_415nm": 71, "f2_445nm": 251, "f3_480nm": 251, "f4_515nm": 513, "f5_555nm": 775, "f6_590nm": 1175, "f7_630nm": 1186, "f8_680nm": 540, "clear": 861, "nir": 85}, "samples": 1}}
+{"utc": "2026-10-29T21:09:21.788671+00:00", "event": "sensor_timeout", "label": "baseline", "attempt": 1, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:09:24.837851+00:00", "event": "baseline_ok", "measurement": {"lux": 0.0, "spectrum": {"f1_415nm": 0, "f2_445nm": 0, "f3_480nm": 0, "f4_515nm": 0, "f5_555nm": 0, "f6_590nm": 0, "f7_630nm": 0, "f8_680nm": 0, "clear": 0, "nir": 0}, "samples": 1}}
+{"utc": "2026-10-29T21:09:29.980357+00:00", "event": "step_ok", "step": 1, "brightness": 5, "color": 1, "lux": 58.0}
+{"utc": "2026-10-29T21:09:40.034711+00:00", "event": "step_ok", "step": 2, "brightness": 10, "color": 1, "lux": 120.3}
+{"utc": "2026-10-29T21:09:49.487257+00:00", "event": "step_ok", "step": 3, "brightness": 15, "color": 1, "lux": 178.9}
+{"utc": "2026-10-29T21:09:59.942321+00:00", "event": "step_ok", "step": 4, "brightness": 20, "color": 1, "lux": 239.45}
+{"utc": "2026-10-29T21:10:11.373743+00:00", "event": "step_ok", "step": 5, "brightness": 25, "color": 1, "lux": 295.68}
+{"utc": "2026-10-29T21:10:18.786710+00:00", "event": "step_ok", "step": 6, "brightness": 30, "color": 1, "lux": 357.21}
+{"utc": "2026-10-29T21:10:29.271834+00:00", "event": "step_ok", "step": 7, "brightness": 35, "color": 1, "lux": 411.39}
+{"utc": "2026-10-29T21:10:40.560235+00:00", "event": "step_ok", "step": 8, "brightness": 40, "color": 1, "lux": 468.4}
+{"utc": "2026-10-29T21:10:49.092592+00:00", "event": "step_ok", "step": 9, "brightness": 45, "color": 1, "lux": 520.85}
+{"utc": "2026-10-29T21:11:00.779944+00:00", "event": "sensor_timeout", "label": "step_10", "attempt": 1, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:11:03.962535+00:00", "event": "step_ok", "step": 10, "brightness": 50, "color": 1, "lux": 575.12}
+{"utc": "2026-10-29T21:11:11.810929+00:00", "event": "step_ok", "step": 11, "brightness": 55, "color": 1, "lux": 625.21}
+{"utc": "2026-10-29T21:11:19.340775+00:00", "event": "step_ok", "step": 12, "brightness": 60, "color": 1, "lux": 676.58}
+{"utc": "2026-10-29T21:11:28.724086+00:00", "event": "step_ok", "step": 13, "brightness": 65, "color": 1, "lux": 725.71}
+{"utc": "2026-10-29T21:11:40.144262+00:00", "event": "step_ok", "step": 14, "brightness": 70, "color": 1, "lux": 776.11}
+{"utc": "2026-10-29T21:11:49.607157+00:00", "event": "step_ok", "step": 15, "brightness": 75, "color": 1, "lux": 822.67}
+{"utc": "2026-10-29T21:11:58.922564+00:00", "event": "step_ok", "step": 16, "brightness": 80, "color": 1, "lux": 872.02}
+{"utc": "2026-10-29T21:12:10.402763+00:00", "event": "step_ok", "step": 17, "brightness": 85, "color": 1, "lux": 915.92}
+{"utc": "2026-10-29T21:12:19.732436+00:00", "event": "step_ok", "step": 18, "brightness": 90, "color": 1, "lux": 961.04}
+{"utc": "2026-10-29T21:12:29.196172+00:00", "event": "step_ok", "step": 19, "brightness": 95, "color": 1, "lux": 996.96}
+{"utc": "2026-10-29T21:12:40.643112+00:00", "event": "step_ok", "step": 20, "brightness": 100, "color": 1, "lux": 1030.38}
+{"utc": "2026-10-29T21:12:50.027017+00:00", "event": "step_ok", "step": 21, "brightness": 5, "color": 6, "lux": 59.87}
+{"utc": "2026-10-29T21:13:01.699233+00:00", "event": "sensor_timeout", "label": "step_22", "attempt": 1, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:13:07.286832+00:00", "event": "step_ok", "step": 22, "brightness": 10, "color": 6, "lux": 122.18}
+{"utc": "2026-10-29T21:13:18.794160+00:00", "event": "step_ok", "step": 23, "brightness": 15, "color": 6, "lux": 151.9}
+{"utc": "2026-10-29T21:13:29.650949+00:00", "event": "step_ok", "step": 24, "brightness": 20, "color": 6, "lux": 244.72}
+{"utc": "2026-10-29T21:13:41.057863+00:00", "event": "step_ok", "step": 25, "brightness": 25, "color": 6, "lux": 304.37}
+{"utc": "2026-10-29T21:13:49.322388+00:00", "event": "step_ok", "step": 26, "brightness": 30, "color": 6, "lux": 365.97}
+{"utc": "2026-10-29T21:13:59.830913+00:00", "event": "step_ok", "step": 27, "brightness": 35, "color": 6, "lux": 423.64}
+{"utc": "2026-10-29T21:14:10.123278+00:00", "event": "step_ok", "step": 28, "brightness": 40, "color": 6, "lux": 480.74}
+{"utc": "2026-10-29T21:14:21.743992+00:00", "event": "sensor_timeout", "label": "step_29", "attempt": 1, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:14:30.171550+00:00", "event": "step_ok", "step": 29, "brightness": 45, "color": 6, "lux": 537.24}
+{"utc": "2026-10-29T21:14:40.465895+00:00", "event": "step_ok", "step": 30, "brightness": 50, "color": 6, "lux": 592.12}
+{"utc": "2026-10-29T21:14:49.753253+00:00", "event": "step_ok", "step": 31, "brightness": 55, "color": 6, "lux": 645.82}
+{"utc": "2026-10-29T21:15:01.347017+00:00", "event": "sensor_timeout", "label": "step_32", "attempt": 1, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:15:08.235570+00:00", "event": "step_ok", "step": 32, "brightness": 60, "color": 6, "lux": 698.84}
+{"utc": "2026-10-29T21:15:13.001925+00:00", "event": "step_ok", "step": 33, "brightness": 65, "color": 6, "lux": 698.33}
+{"utc": "2026-10-29T21:15:20.200232+00:00", "event": "step_ok", "step": 34, "brightness": 70, "color": 6, "lux": 802.69}
+{"utc": "2026-10-29T21:15:30.492854+00:00", "event": "step_ok", "step": 35, "brightness": 75, "color": 6, "lux": 853.49}
+{"utc": "2026-10-29T21:15:41.887615+00:00", "event": "step_ok", "step": 36, "brightness": 80, "color": 6, "lux": 902.47}
+{"utc": "2026-10-29T21:15:49.479913+00:00", "event": "step_ok", "step": 37, "brightness": 85, "color": 6, "lux": 952.73}
+{"utc": "2026-10-29T21:16:01.088325+00:00", "event": "sensor_timeout", "label": "step_38", "attempt": 1, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:16:11.157362+00:00", "event": "sensor_timeout", "label": "step_38", "attempt": 2, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:16:21.288411+00:00", "event": "sensor_timeout", "label": "step_38", "attempt": 3, "error": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing."}
+{"utc": "2026-10-29T21:16:21.289169+00:00", "event": "error", "type": "TimeoutError", "message": "Missing new Sensus lux or spectrum MQTT data. Confirm both topics are publishing.", "completed_rows": 37}
+{"utc": "2026-10-29T21:16:22.024843+00:00", "event": "restoration", "mode": "meross", "success": true}

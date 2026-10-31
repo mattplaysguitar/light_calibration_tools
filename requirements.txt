@@ -1,0 +1,8 @@
+paho-mqtt>=2.0,<3
+requests>=2.30,<3
+matplotlib>=3.7,<4
+
+zeroconf>=0.130,<1
+
+python-dotenv>=1,<2
+certifi>=2024.0.0

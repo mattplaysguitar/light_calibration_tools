@@ -1,0 +1,1 @@
+{"utc": "2026-10-29T23:56:04.071324+00:00", "event": "interrupted", "rows": 0, "error": "ESP32 HTTP sensor unavailable at http://10.0.1.84/read: timed out"}
