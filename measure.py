@@ -1,3 +1,35 @@
+#!/usr/bin/env python3
+"""Local Wi-Fi AS7341 spectrum viewer. Python standard library only.
+
+Run: python3 measure.py --host 0.0.0.0 --port 8765
+ESP32 POST JSON to http://<Mac-LAN-IP>:8765/api/reading
+"""
+import argparse
+import csv
+import io
+import json
+import threading
+import time
+from collections import deque
+from datetime import datetime
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import urlparse
+
+WAVELENGTHS = [415, 445, 480, 515, 555, 590, 630, 680]
+MAX_HISTORY = 10000
+history = deque(maxlen=MAX_HISTORY)
+lock = threading.Lock()
+
+HTML = r'''<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Light Measure · AS7341</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,sans-serif;background:#111318;color:#e7e9ed}
+body{max-width:1060px;margin:35px auto;padding:0 18px}h1{font-size:25px;font-weight:600;margin-bottom:6px}
+.muted{color:#9fa6b3}.panel{background:#1b2029;border:1px solid #333b48;border-radius:10px;padding:18px;margin:18px 0}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}button,a.button{border:1px solid #536075;background:#293545;color:#f5f7fa;cursor:pointer;border-radius:7px;padding:9px 15px;text-decoration:none;font:inherit}
+button:hover,a.button:hover{background:#3a4a60}button:disabled{opacity:.5;cursor:default}
+canvas{display:block;width:100%;height:360px}small{color:#aeb6c2}label{display:inline-flex;align-items:center;gap:6px}input{accent-color:#8ac8e9}
 .stat{padding:8px 14px;background:#141922;border-radius:6px}#message{color:#e0bf7c}
 </style></head><body>
 <h1>Light Measure</h1><div class="muted">AS7341 · 8-band spectrum · ESP32 over Wi-Fi</div>
@@ -57,7 +89,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(200,json.dumps({'latest':latest,'count':count}))
         if path=='/api/export.csv':
             buf=io.StringIO(); w=csv.writer(buf)
-            w.writerow(['timestamp_utc','device','gain','atime','astep',*[f'{x}nm' for x in W],'clear','nir'])
+            w.writerow(['timestamp_utc','device','gain','atime','astep',*[f'{x}nm' for x in WAVELENGTHS],'clear','nir'])
             with lock: rows=list(history)
             for r in rows:
                 w.writerow([datetime.fromtimestamp(r['timestamp']).isoformat()+'Z',r['device'],r['gain'],r['atime'],r['astep'],*r['channels'],r['clear'],r['nir']])
