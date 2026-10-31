@@ -4,7 +4,8 @@
 			"path": "."
 		},
 		{
-			"path": "../../PlatformIO/Projects/Sleep monitor"
+			"name": "CalibrationSensor",
+			"path": "CalibrationSensor"
 		}
 	],
 	"settings": {}
