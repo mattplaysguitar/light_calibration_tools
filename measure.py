@@ -2,7 +2,7 @@
 """Local Wi-Fi AS7341 spectrum viewer. Python standard library only.
 
 Run: python3 measure.py --host 0.0.0.0 --port 8765
-ESP32 POST JSON to http://<Mac-LAN-IP>:8765/api/reading
+Poll ESP32 at http://10.0.1.84/read
 """
 import argparse
 import csv
@@ -11,14 +11,48 @@ import json
 import threading
 import time
 from collections import deque
-from datetime import datetime
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
+from urllib.request import urlopen
 
 WAVELENGTHS = [415, 445, 480, 515, 555, 590, 630, 680]
 MAX_HISTORY = 10000
 history = deque(maxlen=MAX_HISTORY)
 lock = threading.Lock()
+
+sensor_status = {"connected": False, "error": "Waiting for sensor"}
+FIELDS = ("f1_415nm", "f2_445nm", "f3_480nm", "f4_515nm",
+          "f5_555nm", "f6_590nm", "f7_630nm", "f8_680nm")
+
+def poll_sensor(url, interval):
+    last_seq = None
+    while True:
+        try:
+            with urlopen(url, timeout=8) as response:
+                data = json.load(response)
+            if data.get("ok") is not True:
+                raise ValueError("Sensor returned ok=false")
+            values = [data[k] for k in FIELDS]
+            if not all(type(v) is int and 0 <= v <= 65535 for v in values):
+                raise ValueError("Invalid AS7341 channel readings")
+            seq = data.get("seq")
+            record = {
+                "timestamp": time.time(), "device": "ESP32",
+                "channels": values, "clear": int(data.get("clear", 0)),
+                "nir": int(data.get("nir", 0)), "lux": data.get("lux"),
+                "gain": "unknown", "atime": 0, "astep": 0
+            }
+            with lock:
+                if seq is None or seq != last_seq:
+                    history.append(record)
+                sensor_status.update(connected=True, error="")
+            last_seq = seq
+        except Exception as exc:
+            with lock:
+                sensor_status.update(connected=False, error=str(exc))
+        time.sleep(interval)
+
 
 HTML = r'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -66,7 +100,7 @@ function clearBackground(){background=null;document.getElementById('message').te
 document.getElementById('subtract').addEventListener('change',draw);window.addEventListener('resize',draw);
 async function refresh(){try{let r=await fetch('/api/latest',{cache:'no-store'});if(!r.ok)throw Error(r.status);let d=await r.json();
 if(d.latest){latest=d.latest;document.getElementById('status').textContent='Last reading '+new Date(latest.timestamp*1000).toLocaleTimeString();document.getElementById('meta').textContent=(latest.device||'ESP32')+' · '+(latest.gain||'?')+' gain';}
-document.getElementById('samples').textContent=d.count+' samples';draw();}catch(e){document.getElementById('status').textContent='Server unavailable';}}
+document.getElementById('samples').textContent=d.count+' samples';if(d.sensor&&!d.sensor.connected){document.getElementById('status').textContent='ESP32 unreachable: '+d.sensor.error;}draw();}catch(e){document.getElementById('status').textContent='Server unavailable';}}
 refresh();setInterval(refresh,400);
 </script></body></html>'''
 
@@ -85,14 +119,14 @@ class Handler(BaseHTTPRequestHandler):
         path=urlparse(self.path).path
         if path=='/': return self.send(200,HTML,'text/html')
         if path=='/api/latest':
-            with lock: latest=history[-1] if history else None; count=len(history)
-            return self.send(200,json.dumps({'latest':latest,'count':count}))
+            with lock: latest=history[-1] if history else None; count=len(history); status=dict(sensor_status)
+            return self.send(200,json.dumps({'latest':latest,'count':count,'sensor':status}))
         if path=='/api/export.csv':
             buf=io.StringIO(); w=csv.writer(buf)
             w.writerow(['timestamp_utc','device','gain','atime','astep',*[f'{x}nm' for x in WAVELENGTHS],'clear','nir'])
             with lock: rows=list(history)
             for r in rows:
-                w.writerow([datetime.fromtimestamp(r['timestamp']).isoformat()+'Z',r['device'],r['gain'],r['atime'],r['astep'],*r['channels'],r['clear'],r['nir']])
+                w.writerow([datetime.fromtimestamp(r['timestamp'],timezone.utc).isoformat(),r['device'],r['gain'],r['atime'],r['astep'],*r['channels'],r['clear'],r['nir']])
             return self.send(200,buf.getvalue(),'text/csv','light_measure.csv')
         return self.send(404,'{"error":"not found"}')
 
@@ -118,8 +152,12 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description='AS7341 Wi-Fi spectrum viewer')
-    p.add_argument('--host',default='0.0.0.0');p.add_argument('--port',type=int,default=8765)
+    p.add_argument('--host',default='127.0.0.1');p.add_argument('--port',type=int,default=8765)
+    p.add_argument('--url',default='http://10.0.1.84/read')
+    p.add_argument('--interval',type=float,default=1.0)
     args=p.parse_args()
-    print(f'Listening on http://{args.host}:{args.port} (open http://localhost:{args.port} on this Mac)')
+    if args.interval <= 0: p.error('--interval must be positive')
+    threading.Thread(target=poll_sensor,args=(args.url,args.interval),daemon=True).start()
+    print(f'Polling {args.url}; open http://localhost:{args.port}')
     print('Use this only on a trusted local network; no authentication is configured.')
     ThreadingHTTPServer((args.host,args.port),Handler).serve_forever()
